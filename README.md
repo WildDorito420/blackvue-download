@@ -2,8 +2,12 @@
 Download video files from BlackVue camera
 
 ## How to use
-Run the python script and pass it two arguments: the destination directory and the IP/hostname of the camera.
+Firstly, install the pip requirements for the script:
+```bash
+pip install -r requirements.txt
+```
 
+Then, run the python script and pass it two arguments: the destination directory and the IP/hostname of the camera.
 It will run continuously and will wait 5 minutes between trying to reach the host.
 
 ```bash
@@ -12,11 +16,13 @@ python ./blackvue-download.py /home/me/BlackVue 192.168.0.123
 
 The script will place the files in subfolders based on year, month, and day (YYYY/MM/DD).
 
-You may need to install the requirements first:
+The following flags are available:
+- **--wait_time** sets the time between rescanning the dashcam file library, defaults to 5mins
+- **--log_level** sets the logging level of the output, defaults to INFO
+- **--skip_night** will skip the night time files, between 8pm and 6am
+    - **--early_hr** will set the early hour value, defaults to 6 (24hr time)
+    - **--late_hr** will set the late hour value, defaults to 20 (24hr time)
 
-```bash
-pip install -r requirements.txt
-```
 
 ## Docker
 
