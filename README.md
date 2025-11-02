@@ -28,8 +28,8 @@ The following flags are available:
 
 ## Docker
 
-There is a Docker image available. Simply map a volume where you want it stored and pass the hostname/IP of the camera:
+A docker image is available via GitHub to run the script as a container. All flags can be delcared as environment variables.
 
-`docker run -v /home/me/BlackVue:/data philrw/blackvue-download 192.168.0.123`
+`docker run -v /home/me/BlackVue:/data -e HOST=192.168.12.34 ghcr.io/wilddorito420/blackvue-download:1.0`
 
 If you don't map the [data volume](https://docs.docker.com/storage/), it will be anonymous.

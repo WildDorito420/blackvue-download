@@ -13,31 +13,28 @@ logging.basicConfig(
     format='%(asctime)s - %(levelname)-10s - %(message)s',
 )
 
-DEFAULT_LOG_LEVEL = "INFO"
-DEFAULT_WAIT_TIME = 300
-HTTP_TIMEOUT = 13
-EARLY_HOUR = 6
-LATE_HOUR = 20
+DEFAULT_LOG_LEVEL = os.environ.get("LOG_LEVEL", "INFO")
+DEFAULT_WAIT_TIME = os.environ.get("WAIT_TIME", 300)
+HTTP_TIMEOUT = os.environ.get("HTTP_TIMEOUT", 13)
+EARLY_HOUR = os.environ.get("EARLY_HOUR", 6)
+LATE_HOUR = os.environ.get("LATE_HOUR", 20)
 
 logger = logging.getLogger(__name__)
 
 timeformat = "%Y-%m-%d %H:%M"
-
 
 def sig_handler(signalnum, frame):
     logging.debug(f"Caught signal {signalnum}: {frame}")
     logging.info("Exiting program.")
     exit()
 
-
 if __name__ == '__main__':
-
     signal.signal(signal.SIGTERM, sig_handler)
     signal.signal(signal.SIGINT, sig_handler)
 
     parser = argparse.ArgumentParser(description="Download files from BlackVue camera")
-    parser.add_argument("destination", help="The target download directory")
-    parser.add_argument("host", help="The IP / Hostname of the dashcam")
+    parser.add_argument("destination", help="The target download directory", default=os.environ.get("DESTINATION", "/data"))
+    parser.add_argument("host", help="The IP / Hostname of the dashcam", default=os.environ.get("HOST", "192.168.1.2"))
     parser.add_argument("--wait_time", default=os.environ.get("WAIT_TIME", DEFAULT_WAIT_TIME), help="Sets the wait time between rescanning the dashcam file library, defaults to 5mins")
     parser.add_argument("--log_level", default=os.environ.get("LOG_LEVEL", DEFAULT_LOG_LEVEL), help="Set the log level, defaults to INFO")
     parser.add_argument("--skip_night", action='store_true', help="Declare this flag if you want to skip night time recordings")
